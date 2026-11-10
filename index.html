@@ -177,6 +177,29 @@
   .wa-float{position:fixed;right:20px;bottom:20px;z-index:30;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.25)}
   .wa-float svg{width:30px;height:30px;fill:#fff}
 
+  /* explora en 3D */
+  .x3d{background:var(--navy-ink);color:#fff}
+  .x3d h2{color:#fff}
+  .x3d .lead{color:#c4cfe2}
+  .reel{margin-top:40px;border-radius:var(--r);overflow:hidden;background:#000;position:relative}
+  .reel video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+  .reel figcaption{position:absolute;left:0;right:0;bottom:0;padding:28px 24px 16px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));font-size:15px;color:#d6deeb}
+  .viewers{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:24px}
+  .viewer{background:#13294a;border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+  .viewer .stage{position:relative;aspect-ratio:16/10;background:#0a1a33}
+  .viewer .stage img{width:100%;height:100%;object-fit:cover}
+  .viewer .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .viewer .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(14,34,64,.25);border:0;cursor:pointer;color:#fff;font-family:"Outfit";font-size:16px;font-weight:600;gap:12px;text-decoration:none;transition:background .2s}
+  .viewer .play:hover{background:rgba(14,34,64,.05)}
+  .viewer .play span{display:inline-flex;align-items:center;gap:10px;background:var(--orange);padding:12px 20px;border-radius:999px}
+  .viewer .play svg{width:18px;height:18px}
+  .viewer .b{padding:20px 22px 24px}
+  .viewer .k{font-family:"Outfit";font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:4px}
+  .viewer h3{color:#fff}
+  .viewer p{color:#b9c6dc;font-size:15px;margin-top:6px}
+  .viewer .alt{display:inline-block;margin-top:12px;color:#fff;font-size:14px;opacity:.8}
+  .viewer .alt:hover{opacity:1}
+
   @media (max-width:960px){
     nav{display:none;position:absolute;top:72px;left:0;right:0;background:#fff;flex-direction:column;align-items:flex-start;padding:16px 24px 24px;border-bottom:1px solid var(--line);gap:16px}
     nav.open{display:flex}
@@ -185,7 +208,7 @@
     .split.rev .media{order:0}
     .svcs,.rubros,.pk{grid-template-columns:1fr}
     .steps,.why .g{grid-template-columns:1fr 1fr}
-    .casos{grid-template-columns:1fr}
+    .casos,.viewers{grid-template-columns:1fr}
     footer .wrap{grid-template-columns:1fr}
     section{padding:72px 0}
   }
@@ -221,6 +244,7 @@
       <a href="#que-hacemos">Qué hacemos</a>
       <a href="#rubros">Para quién</a>
       <a href="#casos">Casos</a>
+      <a href="#explora">Explorá en 3D</a>
       <a href="#como-trabajamos">Cómo trabajamos</a>
       <a href="#preguntas">Preguntas</a>
       <a class="btn" href="#contacto">Pedí tu presupuesto</a>
@@ -415,6 +439,40 @@
   </div>
 </section>
 
+<!-- EXPLORA EN 3D -->
+<section class="x3d" id="explora">
+  <div class="wrap">
+    <div class="kicker">Explorá en 3D</div>
+    <h2>Mirá un edificio por dentro, sin ir</h2>
+    <p class="lead">Esto es lo que entregamos: la realidad medida, que se puede recorrer, cortar y consultar desde cualquier computadora.</p>
+    <figure class="reel">
+      <video src="media/cortes-3d.mp4" poster="media/cortes-3d-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Cortes animados sobre nubes de puntos de edificios"></video>
+      <figcaption>Cortes animados sobre nubes de puntos reales: un plano atraviesa el edificio y deja ver cada nivel.</figcaption>
+    </figure>
+    <div class="viewers">
+      <div class="viewer">
+        <div class="stage" id="malla">
+          <img src="media/malla-poster.jpg" alt="Malla 3D texturizada de un edificio histórico" loading="lazy">
+          <button class="play" type="button" onclick="cargarVisor('malla','https://sketchfab.com/models/92ed3f219f884901978cce32ab7e1b14/embed?autostart=1&ui_theme=dark&dnt=1')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Explorar el modelo 3D</span></button>
+        </div>
+        <div class="b"><div class="k">Malla texturizada · Fotogrametría</div><h3>Edificio de casi 100 años</h3>
+          <p>Modelo 3D con las texturas reales de fachadas y cubiertas, a partir de fotos de dron y cámara. Giralo, acercate y recorrelo.</p>
+          <a class="alt" href="https://sketchfab.com/3d-models/minhaciendas-v01-92ed3f219f884901978cce32ab7e1b14" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
+      </div>
+      <div class="viewer">
+        <div class="stage">
+          <img src="img/caso-estadio.jpg" alt="Nube de puntos a color de un estadio" loading="lazy">
+          <a class="play" href="https://service.usbim.com/link/5s7jYWraPLGDqVCvRUGGKQHr" target="_blank" rel="noopener"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Recorrer la nube de puntos</span></a>
+        </div>
+        <div class="b"><div class="k">Nube de puntos · Escaneo láser</div><h3>Estadio cubierto</h3>
+          <p>Millones de puntos medidos con su color real. Se abre en un visor web: se puede recorrer y medir sin instalar nada.</p></div>
+      </div>
+      <!-- 3DGS: cuando haya escena publicada en superspl.at, duplicar la tarjeta de la malla con
+           cargarVisor('gs','https://superspl.at/s?id=…') e imagen propia (ver ../03-visores-web.md). -->
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section id="preguntas">
   <div class="wrap">
@@ -464,5 +522,13 @@
 
 <a class="wa-float" href="https://wa.me/5493816296295" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.2Z"/></svg></a>
 
+<script>
+function cargarVisor(id,url){
+  var st=document.getElementById(id);
+  var f=document.createElement('iframe');
+  f.src=url; f.title='Visor 3D'; f.allow='autoplay; fullscreen; xr-spatial-tracking'; f.allowFullscreen=true;
+  st.innerHTML=''; st.appendChild(f);
+}
+</script>
 </body>
 </html>

@@ -467,9 +467,26 @@
         <div class="b"><div class="k">Nube de puntos · Escaneo láser</div><h3>Estadio cubierto</h3>
           <p>Millones de puntos medidos con su color real. Se abre en un visor web: se puede recorrer y medir sin instalar nada.</p></div>
       </div>
-      <!-- 3DGS: cuando haya escena publicada en superspl.at, duplicar la tarjeta de la malla con
-           cargarVisor('gs','https://superspl.at/s?id=…') e imagen propia (ver ../03-visores-web.md). -->
+      <div class="viewer">
+        <div class="stage" id="gs-4b318799">
+          <img src="media/gs-patio.jpg" alt="Gaussian Splatting del patio de una casa histórica" loading="lazy">
+          <button class="play" type="button" onclick="cargarVisor('gs-4b318799','https://superspl.at/s?id=4b318799')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Recorrer en 3D</span></button>
+        </div>
+        <div class="b"><div class="k">Gaussian Splatting · Patrimonio</div><h3>Patio de una casa histórica</h3>
+          <p>Reconstrucción fotorrealista a partir de fotos y video: luz, materiales y vegetación tal como se ven. Se recorre como si estuvieras ahí.</p>
+          <a class="alt" href="https://superspl.at/scene/4b318799" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
+      </div>
+      <div class="viewer">
+        <div class="stage" id="gs-0e39cd4e">
+          <img src="media/gs-planta.jpg" alt="Gaussian Splatting de cañerías y tanques de una planta" loading="lazy">
+          <button class="play" type="button" onclick="cargarVisor('gs-0e39cd4e','https://superspl.at/s?id=0e39cd4e')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Recorrer en 3D</span></button>
+        </div>
+        <div class="b"><div class="k">Gaussian Splatting · Industria</div><h3>Sector de cañerías de una planta</h3>
+          <p>Tanques, cañerías y soportes en 3D fotorrealista, para revisar una instalación sin viajar al lugar.</p>
+          <a class="alt" href="https://superspl.at/scene/0e39cd4e" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
+      </div>
     </div>
+    <p class="lead" style="font-size:15px;margin-top:20px">El <strong>Gaussian Splatting (3DGS)</strong> es una técnica nueva de reconstrucción fotorrealista: es ideal para mostrar y recorrer un lugar. Para medir y modelar trabajamos sobre la nube de puntos del escaneo láser.</p>
   </div>
 </section>
 

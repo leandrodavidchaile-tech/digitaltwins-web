@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Twins — Scan to BIM en Tucumán</title>
+<meta name="description" content="Relevamiento 3D con escáner láser, planos conforme a obra y modelos BIM de edificios patrimoniales, plantas industriales y obras. Tucumán, Argentina.">
+<link rel="icon" href="img/logo-claro.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B3666; --navy-ink:#0E2240; --orange:#F5811F; --orange-d:#d96c10; --skin:#FCD2C1;
+    --ink:#1d2433; --muted:#5b6578; --line:#dfe3ea; --bg:#ffffff; --tint:#f3f5f9;
+    --wrap:1160px; --r:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:76px}
+  body{font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  h1,h2,h3,.kicker,.btn,nav a{font-family:"Outfit",sans-serif}
+  h2{font-size:clamp(28px,3.4vw,40px);line-height:1.1;color:var(--navy);font-weight:600;letter-spacing:-.01em}
+  h3{font-size:20px;color:var(--navy);font-weight:600;line-height:1.25}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+  .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:12px}
+  .lead{font-size:19px;color:var(--muted);max-width:720px;margin-top:16px}
+  section{padding:96px 0}
+  .tint{background:var(--tint)}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:var(--orange);color:#fff;text-decoration:none;font-weight:600;font-size:16px;padding:14px 24px;border-radius:999px;transition:background .2s}
+  .btn:hover{background:var(--orange-d)}
+  .btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.6)}
+  .btn.ghost:hover{background:rgba(255,255,255,.1)}
+  .btn svg{width:20px;height:20px}
+
+  /* barra superior + header */
+  .topbar{background:var(--navy-ink);color:#b9c6dc;font-size:14px}
+  .topbar .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px}
+  .topbar a{text-decoration:none}
+  .topbar a:hover{color:#fff}
+  header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .brand img{width:48px;height:48px}
+  .brand span{font-family:"Outfit";font-weight:600;color:var(--navy);font-size:19px;letter-spacing:.02em}
+  .brand span b{color:var(--orange);font-weight:600}
+  nav{display:flex;gap:26px;align-items:center}
+  nav a{text-decoration:none;font-size:15px;color:var(--navy);font-weight:500}
+  nav a:hover{color:var(--orange)}
+  nav .btn{padding:10px 18px;font-size:15px;color:#fff}
+  .menu{display:none;background:none;border:0;cursor:pointer;color:var(--navy)}
+  .menu svg{width:28px;height:28px}
+
+  /* hero */
+  .hero{padding:0;background:var(--navy-ink);color:#fff}
+  .hero .pic{position:relative;height:min(62vh,640px);min-height:320px;overflow:hidden}
+  .hero .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+  .hero .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,34,64,0) 60%,var(--navy-ink) 100%)}
+  .hero .labels{position:absolute;z-index:1;left:0;right:0;bottom:20px;display:flex;gap:10px;flex-wrap:wrap}
+  .hero .labels span{font-family:"Outfit";font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:rgba(14,34,64,.85);border-top:2px solid var(--orange);padding:7px 12px}
+  .hero .txt{padding:28px 24px 80px}
+  .hero h1{font-size:clamp(38px,5.6vw,68px);line-height:1.02;font-weight:600;letter-spacing:-.02em;max-width:900px}
+  .hero h1 em{font-style:normal;color:var(--orange)}
+  .hero p{font-size:clamp(17px,1.7vw,21px);color:#d6deeb;max-width:680px;margin:20px 0 32px}
+  .hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+  /* dos columnas */
+  .split{display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center}
+  .split.rev{grid-template-columns:1fr 1.05fr}
+  .split.rev .media{order:-1}
+  .split .media img{border-radius:var(--r);width:100%;aspect-ratio:4/3;object-fit:cover}
+  .split p+p{margin-top:14px}
+  .split .txt p{color:var(--muted)}
+  .quote{margin-top:28px;border-left:4px solid var(--orange);padding:6px 0 6px 18px;font-family:"Outfit";font-size:22px;color:var(--navy);font-weight:500;line-height:1.25}
+
+  /* servicios */
+  .svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
+  .svc img{border-radius:var(--r);aspect-ratio:4/3;object-fit:cover;width:100%;margin-bottom:20px}
+  .svc .n{font-family:"Outfit";font-size:34px;font-weight:300;color:var(--orange);line-height:1;margin-bottom:8px}
+  .svc h3{margin-bottom:8px}
+  .svc p{color:var(--muted)}
+  .flow{display:flex;align-items:center;gap:12px;margin-top:36px;flex-wrap:wrap;font-family:"Outfit";font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);font-weight:500}
+  .flow span{background:var(--tint);padding:8px 14px;border-radius:999px}
+  .flow i{color:var(--orange);font-style:normal}
+
+  /* rubros */
+  .rubros{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+  .rubro{background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+  .rubro img{aspect-ratio:16/10;object-fit:cover;width:100%}
+  .rubro .b{padding:24px}
+  .rubro.main{background:var(--navy);border-color:var(--navy);color:#fff}
+  .rubro.main h3{color:#fff}
+  .rubro .tag{display:inline-block;font-family:"Outfit";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .rubro.main .tag{background:var(--orange);color:#fff;padding:3px 10px;border-radius:999px}
+  .rubro .who{color:var(--muted);font-size:15px;margin:6px 0 14px}
+  .rubro.main .who{color:#b9c6dc}
+  .rubro ul{list-style:none}
+  .rubro li{padding:8px 0 8px 18px;position:relative;border-top:1px solid rgba(27,54,102,.1);font-size:16px}
+  .rubro.main li{border-color:rgba(255,255,255,.14)}
+  .rubro li::before{content:"";position:absolute;left:0;top:16px;width:8px;height:8px;border-radius:50%;background:var(--orange)}
+  .also{margin-top:24px;padding:18px 24px;border:1px solid var(--line);border-radius:var(--r);background:#fff;color:var(--muted)}
+  .also b{color:var(--navy)}
+
+  /* entregables */
+  .pk{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+  .opt{border-radius:var(--r);background:var(--tint);padding:28px;display:flex;flex-direction:column}
+  .opt.hi{background:var(--navy);color:#fff}
+  .opt small{font-family:"Outfit";font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:600}
+  .opt h3{font-size:22px;margin:6px 0 18px}
+  .opt.hi h3{color:#fff}
+  .opt dl{display:grid;gap:14px}
+  .opt dt{font-family:"Outfit";font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .opt.hi dt{color:#9fb0cc}
+  .opt dd{font-size:16px}
+  .always{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+  .always>div{border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;display:flex;gap:16px}
+  .always svg{flex:none;width:40px;height:40px}
+  .always p{color:var(--muted);font-size:16px;margin-top:4px}
+
+  /* tecnologia */
+  table.tech{width:100%;border-collapse:collapse;margin-top:40px;font-size:16px}
+  .tech th{font-family:"Outfit";text-align:left;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:12px 16px;border-bottom:2px solid var(--navy)}
+  .tech td{padding:16px;border-bottom:1px solid var(--line);vertical-align:top}
+  .tech td:first-child{font-family:"Outfit";font-weight:600;color:var(--navy);white-space:nowrap}
+  .tech-note{margin-top:20px;font-size:15px;color:var(--muted)}
+
+  /* como trabajamos */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;counter-reset:s}
+  .step{border-top:3px solid var(--orange);padding-top:20px}
+  .step::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-family:"Outfit";font-size:40px;font-weight:300;color:var(--navy);display:block;line-height:1;margin-bottom:12px}
+  .step p{color:var(--muted);margin-top:6px}
+
+  /* por que */
+  .why{background:var(--navy);color:#fff}
+  .why h2{color:#fff}
+  .why .g{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:44px}
+  .why h3{color:#fff;font-size:19px;border-left:3px solid var(--orange);padding-left:14px;margin-bottom:10px}
+  .why p{color:#c4cfe2;font-size:16px}
+
+  /* casos */
+  .casos{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-top:48px}
+  .caso img{border-radius:var(--r);aspect-ratio:16/10;object-fit:cover;width:100%;margin-bottom:18px}
+  .caso .where{font-family:"Outfit";font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:4px}
+  .caso p{color:var(--muted);margin-top:6px}
+  .figs{display:flex;gap:28px;margin-top:14px}
+  .figs div{font-size:14px;color:var(--muted);line-height:1.2}
+  .figs b{display:block;font-family:"Outfit";font-size:26px;color:var(--navy);font-weight:600}
+  .callout{margin-top:32px;background:var(--skin);border-radius:var(--r);padding:22px 28px;display:flex;gap:24px;align-items:center}
+  .callout b{font-family:"Outfit";font-size:34px;color:var(--navy);white-space:nowrap}
+
+  /* faq */
+  .faq{max-width:820px;margin-top:40px}
+  details{border-bottom:1px solid var(--line)}
+  summary{cursor:pointer;list-style:none;padding:20px 40px 20px 0;font-family:"Outfit";font-size:19px;font-weight:500;color:var(--navy);position:relative}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";position:absolute;right:4px;top:14px;font-size:28px;color:var(--orange);font-weight:300;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 0 22px;color:var(--muted)}
+
+  /* cta */
+  .cta{background:var(--navy-ink);color:#fff;text-align:center}
+  .cta h2{color:#fff;max-width:800px;margin:0 auto}
+  .cta .lead{color:#c4cfe2;margin:18px auto 0}
+  .cta ul{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:28px auto 36px;max-width:820px}
+  .cta li{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 14px;font-size:15px;color:#d6deeb}
+  .cta .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+  footer{background:#0a1a33;color:#8ea0c0;font-size:15px;padding:48px 0 32px}
+  footer .wrap{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:32px}
+  footer img{width:64px;margin-bottom:14px}
+  footer h4{font-family:"Outfit";color:#fff;font-weight:500;font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+  footer a{text-decoration:none;display:block;padding:3px 0}
+  footer a:hover{color:#fff}
+  footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;font-size:14px}
+
+  .wa-float{position:fixed;right:20px;bottom:20px;z-index:30;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .wa-float svg{width:30px;height:30px;fill:#fff}
+
+  @media (max-width:960px){
+    nav{display:none;position:absolute;top:72px;left:0;right:0;background:#fff;flex-direction:column;align-items:flex-start;padding:16px 24px 24px;border-bottom:1px solid var(--line);gap:16px}
+    nav.open{display:flex}
+    .menu{display:block}
+    .split,.split.rev{grid-template-columns:1fr;gap:32px}
+    .split.rev .media{order:0}
+    .svcs,.rubros,.pk{grid-template-columns:1fr}
+    .steps,.why .g{grid-template-columns:1fr 1fr}
+    .casos{grid-template-columns:1fr}
+    footer .wrap{grid-template-columns:1fr}
+    section{padding:72px 0}
+  }
+  @media (max-width:600px){
+    .wrap{padding:0 16px}
+    .topbar .loc{display:none}
+    .steps,.why .g,.always{grid-template-columns:1fr}
+    .callout{flex-direction:column;align-items:flex-start;gap:6px}
+    table.tech thead{display:none}
+    table.tech,.tech tbody,.tech tr,.tech td{display:block;width:100%}
+    .tech tr{border-bottom:1px solid var(--line);padding:12px 0}
+    .tech td{border:0;padding:4px 0}
+    .hero .txt{padding:24px 16px 56px}
+    .hero .pic{height:46vh}
+    .hero .labels span{font-size:10px;padding:5px 8px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <span class="loc">Tucumán, Argentina</span>
+  <span><a href="https://www.instagram.com/digitaltwins.tuc/" target="_blank" rel="noopener">@digitaltwins.tuc</a> · <a href="https://wa.me/5493816296295">+54 9 381 629-6295</a></span>
+</div></div>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#inicio"><img src="img/logo-claro.png" alt=""><span>DIGITAL <b>TWINS</b></span></a>
+    <button class="menu" aria-label="Abrir menú" onclick="document.querySelector('nav').classList.toggle('open')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav onclick="if(event.target.tagName==='A')this.classList.remove('open')">
+      <a href="#que-hacemos">Qué hacemos</a>
+      <a href="#rubros">Para quién</a>
+      <a href="#casos">Casos</a>
+      <a href="#como-trabajamos">Cómo trabajamos</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="btn" href="#contacto">Pedí tu presupuesto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="pic">
+    <img src="img/hero-efecto.jpg" alt="Fachada histórica que pasa de la foto a la nube de puntos y al modelo BIM">
+    <div class="labels wrap"><span>Edificio real</span><span>Nube de puntos</span><span>Modelo BIM</span></div>
+  </div>
+  <div class="wrap txt">
+    <h1>Del edificio real a su <em>gemelo digital</em>.</h1>
+    <p>Relevamiento 3D con escáner láser, planos conforme a obra y modelos BIM de edificios patrimoniales, plantas industriales y obras.</p>
+    <div class="ctas">
+      <a class="btn" href="#contacto">Pedí tu presupuesto</a>
+      <a class="btn ghost" href="#casos">Ver trabajos</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section>
+  <div class="wrap split">
+    <div class="txt">
+      <div class="kicker">El punto de partida</div>
+      <h2>¿Tenés los planos de tu edificio? ¿Coinciden con lo construido?</h2>
+      <p class="lead">La mayoría de los edificios no tiene planos, o tiene planos que no coinciden con lo que se construyó.</p>
+      <p style="margin-top:18px">Reformas que nunca se dibujaron, medidas que cambiaron en obra, archivos que se perdieron entre un estudio y otro. Y sobre esa información se decide: una restauración, una ampliación, una verificación estructural, una licitación, un equipo nuevo.</p>
+      <p>Medir a mano lleva días, deja huecos y obliga a volver. Proyectar sobre suposiciones termina en sorpresas, adicionales y discusiones en obra.</p>
+      <div class="quote">Lo que no se mide bien al principio, se paga después.</div>
+    </div>
+    <div class="media"><img src="img/problema-fachada.jpg" alt="Fachada de un edificio histórico" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- QUE HACEMOS -->
+<section class="tint" id="que-hacemos">
+  <div class="wrap">
+    <div class="kicker">Qué hacemos</div>
+    <h2>Traemos la realidad al modelo</h2>
+    <p class="lead">Relevamos el edificio, la planta o la obra tal como está hoy, y lo convertimos en información con la que tu equipo puede trabajar.</p>
+    <div class="flow"><span>Edificio real</span><i>→</i><span>Captura 3D</span><i>→</i><span>Planos y modelo</span><i>→</i><span>Gemelo digital</span></div>
+    <div class="svcs">
+      <div class="svc"><img src="img/servicio-relevamiento.jpg" alt="Nube de puntos a color de un estadio" loading="lazy"><div class="n">01</div><h3>Relevamiento 3D</h3>
+        <p>Recorremos el lugar con escáner láser (LiDAR), dron y GPS. En una visita capturamos todo el espacio, por dentro y por fuera, con color y sin frenar la actividad.</p></div>
+      <div class="svc"><img src="img/servicio-planos.jpg" alt="Planta de un edificio industrial" style="object-position:25% 50%" loading="lazy"><div class="n">02</div><h3>Planos y modelos conforme a obra</h3>
+        <p>Convertimos la captura en lo que necesitás: plantas, cortes y vistas en CAD, o un modelo BIM en Revit o en formato abierto IFC.</p></div>
+      <div class="svc"><img src="img/servicio-modelo.jpg" alt="Modelo BIM de una vivienda" loading="lazy"><div class="n">03</div><h3>Gestión BIM y gemelo digital</h3>
+        <p>Organizamos la información del edificio para que no se vuelva a perder y se pueda actualizar en el tiempo: el modelo y el edificio real, conectados.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUE ES -->
+<section>
+  <div class="wrap split rev">
+    <div class="txt">
+      <div class="kicker">En simple</div>
+      <h2>¿Qué es Scan to BIM? ¿Y un gemelo digital?</h2>
+      <p class="lead">Scan to BIM es pasar de lo construido a un modelo digital: escaneamos, obtenemos millones de puntos medidos con color (la <em>nube de puntos</em>) y sobre ellos dibujamos planos o modelamos el edificio.</p>
+      <p style="margin-top:18px">Un <strong>gemelo digital</strong> es ese modelo cuando se mantiene vivo: se actualiza cuando el edificio cambia y concentra su información (planos, estado, intervenciones). Hay escalones: la mayoría de los proyectos empieza por un buen relevamiento y un modelo confiable, y crece desde ahí.</p>
+      <p>Trabajamos con un escáner que se lleva en la mano mientras se camina (tecnología <em>SLAM</em>): mide todo el recorrido, sin estaciones fijas, por eso es rápido en interiores, pasillos, techos y lugares de difícil acceso.</p>
+    </div>
+    <div class="media"><img src="img/campo-escaneo.jpg" alt="Relevamiento con escáner en una planta" style="aspect-ratio:4/4.2;object-position:50% 70%" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- RUBROS -->
+<section class="tint" id="rubros">
+  <div class="wrap">
+    <div class="kicker">Para quién</div>
+    <h2>Donde la información del edificio vale más</h2>
+    <div class="rubros">
+      <div class="rubro main"><img src="img/rubro-patrimonio.jpg" alt="Nube de puntos de un edificio histórico" loading="lazy"><div class="b">
+        <span class="tag">Foco principal</span><h3>Patrimonio e instituciones</h3>
+        <p class="who">Edificios históricos, sedes de organismos públicos, iglesias, museos.</p>
+        <ul><li>Registro completo del estado actual antes de intervenir.</li><li>Planos para restauración y puesta en valor.</li><li>Base para verificaciones estructurales.</li><li>Archivo digital del edificio, recorrible en 3D.</li></ul></div></div>
+      <div class="rubro"><img src="img/rubro-industria.jpg" alt="Nube de puntos de una sala de cañerías" loading="lazy"><div class="b">
+        <span class="tag">Industria</span><h3>Plantas e instalaciones</h3>
+        <p class="who">Plantas, galpones, tanques, cañerías.</p>
+        <ul><li>Planos actualizados de instalaciones existentes.</li><li>Verificación de espacio para equipos y cañerías nuevas.</li><li>Registro del estado al recibir una instalación o antes de una parada.</li><li>Menos tiempo de personal en zonas de riesgo.</li></ul></div></div>
+      <div class="rubro"><img src="img/rubro-arquitectura.jpg" alt="Modelo BIM de una vivienda" style="object-position:40% 45%" loading="lazy"><div class="b">
+        <span class="tag">Proyecto y obra</span><h3>Arquitectura y construcción</h3>
+        <p class="who">Estudios, constructoras y desarrolladoras.</p>
+        <ul><li>Estado actual exacto para reformas y ampliaciones.</li><li>Conforme a obra para aprobaciones y legajos.</li><li>Registro del avance para certificar y controlar.</li><li>Relevamiento de terrenos y entorno.</li></ul></div></div>
+    </div>
+    <p class="also"><b>Y también en ingeniería civil:</b> puentes, alcantarillas, túneles, canales con mucha vegetación y movimientos de suelo de mediana extensión.</p>
+  </div>
+</section>
+
+<!-- ENTREGABLES -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Qué recibís</div>
+    <h2>La entrega justa para lo que tenés que decidir</h2>
+    <div class="pk">
+      <div class="opt"><small>Opción 1</small><h3>Relevamiento</h3><dl>
+        <div><dt>Ideal para</dt><dd>Verificaciones rápidas y anteproyectos.</dd></div>
+        <div><dt>Recibís</dt><dd>Nube de puntos y plantas generales en PDF / DWG.</dd></div>
+        <div><dt>Además</dt><dd>Visor web para recorrer la nube.</dd></div></dl></div>
+      <div class="opt"><small>Opción 2</small><h3>Documentación conforme a obra</h3><dl>
+        <div><dt>Ideal para</dt><dd>Reformas, aprobaciones y legajos técnicos.</dd></div>
+        <div><dt>Recibís</dt><dd>Nube de puntos + plantas, cortes y vistas en CAD.</dd></div>
+        <div><dt>Además</dt><dd>Reunión de entrega.</dd></div></dl></div>
+      <div class="opt hi"><small>Opción 3</small><h3>Modelo BIM / gemelo digital</h3><dl>
+        <div><dt>Ideal para</dt><dd>Restauraciones, gestión del edificio y obras complejas.</dd></div>
+        <div><dt>Recibís</dt><dd>Modelo BIM (RVT / IFC) + planos + nube de puntos.</dd></div>
+        <div><dt>Además</dt><dd>Acompañamiento y actualización del modelo en el tiempo.</dd></div></dl></div>
+    </div>
+    <div class="always">
+      <div><svg viewBox="0 0 48 48" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M6 34h36M6 34V22M42 34V22M15 34v-6M24 34V20M33 34v-6" stroke="#F5811F"/><path d="M10 12h28M10 12l3-3M10 12l3 3M38 12l-3-3M38 12l-3 3" stroke="#1B3666"/></svg>
+        <div><h3>Exactitud declarada</h3><p>Cada entrega dice por escrito con qué exactitud se midió y cómo se controló. Sin promesas genéricas.</p></div></div>
+      <div><svg viewBox="0 0 48 48" fill="none" stroke-width="2.4" stroke-linecap="round"><circle cx="24" cy="24" r="16" stroke="#1B3666"/><path d="M8 24h32M24 8c-6 5-6 27 0 32M24 8c6 5 6 27 0 32" stroke="#1B3666"/><circle cx="31" cy="17" r="3.5" fill="#F5811F"/></svg>
+        <div><h3>Georreferencia</h3><p>Si el proyecto lo pide, el relevamiento queda en coordenadas oficiales, listo para cruzar con catastro, redes o vuelos.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGIA -->
+<section class="tint">
+  <div class="wrap">
+    <div class="kicker">Tecnología</div>
+    <h2>Cada herramienta, para lo que mejor hace</h2>
+    <p class="lead">Ningún equipo resuelve todo solo. Combinamos métodos según el edificio y lo que hay que entregar.</p>
+    <table class="tech">
+      <thead><tr><th>Herramienta</th><th>Mejor uso</th><th>Qué aporta</th></tr></thead>
+      <tbody>
+        <tr><td>Escáner LiDAR móvil (SLAM)</td><td>Interiores, fachadas, galpones, instalaciones, espacios complejos.</td><td>Captura completa y rápida caminando, con color.</td></tr>
+        <tr><td>Dron (fotogrametría)</td><td>Techos, cubiertas, terrenos y entorno.</td><td>Vista aérea, ortofotos y modelos de lo que no se ve desde el piso.</td></tr>
+        <tr><td>Cámara profesional</td><td>Fachadas y detalles ornamentales.</td><td>Texturas de alta definición para análisis de restauración.</td></tr>
+        <tr><td>GNSS (GPS de precisión) y nivel</td><td>Puntos de control y georreferencia.</td><td>Control de calidad del relevamiento y coordenadas oficiales.</td></tr>
+        <tr><td>Software BIM y CAD</td><td>Modelado y documentación.</td><td>Revit, AutoCAD / Civil 3D, CloudCompare, RealityScan. Entregas en formatos abiertos (IFC).</td></tr>
+      </tbody>
+    </table>
+    <p class="tech-note">La exactitud de un relevamiento depende del equipo, la distancia y el control con puntos medidos. Por eso la informamos en cada entrega.</p>
+  </div>
+</section>
+
+<!-- COMO TRABAJAMOS -->
+<section id="como-trabajamos">
+  <div class="wrap">
+    <div class="kicker">Cómo trabajamos</div>
+    <h2>Cuatro pasos, sin vueltas</h2>
+    <div class="steps">
+      <div class="step"><h3>Entendemos qué necesitás decidir</h3><p>Y definimos juntos qué entregar, con qué detalle y en qué plazo.</p></div>
+      <div class="step"><h3>Relevamos en el lugar</h3><p>En una o pocas visitas, sin frenar la actividad del edificio o la planta.</p></div>
+      <div class="step"><h3>Procesamos y modelamos</h3><p>En gabinete, con control de calidad sobre puntos medidos.</p></div>
+      <div class="step"><h3>Entregamos y explicamos</h3><p>En el formato que usa tu equipo, y te mostramos cómo aprovecharlo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUE -->
+<section class="why">
+  <div class="wrap">
+    <div class="kicker">Por qué Digital Twins</div>
+    <h2>Ingenieros que proyectan, no sólo escanean</h2>
+    <div class="g">
+      <div><h3>Sabemos para qué es el dato</h3><p>Somos la unidad de captura de Integral Ingeniería, consultora de proyectos de infraestructura desde 2020. Usamos esta información para proyectar.</p></div>
+      <div><h3>Exactitud declarada</h3><p>Cada entrega informa con qué exactitud se midió y cómo se controló.</p></div>
+      <div><h3>Georreferencia</h3><p>Datos en coordenadas oficiales, compatibles con catastro, redes y relevamientos aéreos.</p></div>
+      <div><h3>Gestión BIM de verdad</h3><p>Dirección a cargo de un Máster en BIM aplicado a infraestructura. Formatos abiertos para que la información sea tuya.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS -->
+<section class="tint" id="casos">
+  <div class="wrap">
+    <div class="kicker">Casos</div>
+    <h2>Trabajos que hablan por nosotros</h2>
+    <div class="casos">
+      <div class="caso"><img src="img/caso-estadio.jpg" alt="Nube de puntos de las gradas y la cubierta de un estadio" loading="lazy">
+        <div class="where">Patrimonio · San Miguel de Tucumán</div><h3>Estadio cubierto</h3>
+        <p>Relevamiento 3D completo, por dentro y por fuera, como base para la verificación estructural de la cubierta y las gradas. La nube se recorre desde un link web.</p></div>
+      <div class="caso"><img src="img/caso-edificio-historico.jpg" alt="Nube de puntos de un edificio histórico" loading="lazy">
+        <div class="where">Patrimonio · Edificio público</div><h3>Edificio de casi 100 años</h3>
+        <p>Escaneo 3D interior y exterior, control dimensional, nivelación y fotogrametría aérea y terrestre: nube densa de todo el edificio y malla texturizada para el análisis de restauración.</p></div>
+      <div class="caso"><img src="img/caso-planta.jpg" alt="Vista aérea de la nube de puntos de una planta agroindustrial" loading="lazy">
+        <div class="where">Industria · Agroindustria</div><h3>Planta agroindustrial</h3>
+        <p>Planos conforme a obra de galpones, entrepisos y estructuras metálicas para proyectar refacciones y ampliaciones.</p>
+        <div class="figs"><div><b>+25.000 m²</b>relevados</div><div><b>16 h</b>de escaneo</div></div></div>
+      <div class="caso"><img src="img/caso-casona.jpg" alt="Nube de puntos a color de una casona con parque" loading="lazy">
+        <div class="where">Arquitectura · Desarrollo comercial</div><h3>Casona con parque</h3>
+        <p>Planos y modelo BIM conforme a obra de una casona sobre un terreno de 2.500 m².</p>
+        <div class="figs"><div><b>+350 m²</b>cubiertos</div><div><b>&lt; 1 h</b>de relevamiento</div></div></div>
+    </div>
+    <div class="callout"><b>&lt; 40 min</b><p><strong>Un bar emblemático del centro.</strong> Medimos todo el local con el bar abierto y los clientes en sus mesas. Sin cerrar, sin molestar.</p></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="preguntas">
+  <div class="wrap">
+    <div class="kicker">Preguntas frecuentes</div>
+    <h2>Lo que nos suelen preguntar</h2>
+    <div class="faq">
+      <details><summary>¿Qué precisión tiene un relevamiento?</summary>
+        <p>Depende del equipo, de la distancia a lo que se mide y de si se usan puntos de control. En vez de prometer una cifra genérica, definimos con vos la exactitud que necesita el proyecto y la informamos por escrito en la entrega.</p></details>
+      <details><summary>¿Hay que cerrar el edificio o frenar la obra?</summary>
+        <p>No. El escaneo se hace caminando, con el lugar en funcionamiento. Coordinamos horarios para molestar lo menos posible.</p></details>
+      <details><summary>¿Qué es una nube de puntos y cómo la veo?</summary>
+        <p>Es un conjunto de millones de puntos medidos, con color, que reproduce el lugar en 3D. Te la entregamos en formatos estándar y, si querés, en un visor web para recorrerla desde cualquier computadora, sin instalar nada.</p></details>
+      <details><summary>¿En qué formatos entregan?</summary>
+        <p>Planos en PDF y DWG; modelos en Revit (RVT) y en formato abierto IFC; nubes en LAS/E57 o el formato que use tu equipo.</p></details>
+      <details><summary>¿Cuánto tarda?</summary>
+        <p>El relevamiento en el lugar suele resolverse en una o pocas visitas. El procesamiento y el modelado dependen de la superficie y del nivel de detalle; el plazo se acuerda por escrito en el presupuesto.</p></details>
+      <details><summary>¿Qué datos necesitan para cotizar?</summary>
+        <p>Ubicación, tipo de edificio o instalación, superficie aproximada, para qué vas a usar la información y qué entregables necesitás. Con eso te proponemos el relevamiento justo.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contacto">
+  <div class="wrap">
+    <div class="kicker">Contacto</div>
+    <h2>¿Tenés un edificio, una planta o una obra que necesitás conocer en detalle?</h2>
+    <p class="lead">Contanos qué tenés que decidir y te proponemos el relevamiento justo. Para cotizar, indicanos:</p>
+    <ul><li>Ubicación</li><li>Tipo de edificio o instalación</li><li>Superficie aproximada</li><li>Para qué lo necesitás</li><li>Entregables: nube, planos, modelo BIM</li></ul>
+    <div class="ctas">
+      <a class="btn" href="https://wa.me/5493816296295?text=Hola%20Digital%20Twins%2C%20quiero%20pedir%20un%20presupuesto%20de%20relevamiento.%20Ubicaci%C3%B3n%3A%20%20%7C%20Tipo%20de%20edificio%3A%20%20%7C%20Superficie%20aprox.%3A%20%20%7C%20Para%20qu%C3%A9%3A%20" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
+        Escribinos por WhatsApp</a>
+      <a class="btn ghost" href="https://www.instagram.com/digitaltwins.tuc/" target="_blank" rel="noopener">Ver Instagram</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><img src="img/logo-oscuro.png" alt="Digital Twins"><p>Scan to BIM en Tucumán. Relevamiento 3D, planos conforme a obra y modelos BIM.</p><p style="margin-top:8px">Digital Twins es la unidad de captura de Integral Ingeniería.</p></div>
+    <div><h4>Secciones</h4><a href="#que-hacemos">Qué hacemos</a><a href="#rubros">Para quién</a><a href="#casos">Casos</a><a href="#preguntas">Preguntas</a></div>
+    <div><h4>Contacto</h4><a href="https://wa.me/5493816296295">WhatsApp +54 9 381 629-6295</a><a href="https://www.instagram.com/digitaltwins.tuc/">Instagram @digitaltwins.tuc</a><a href="mailto:leandro.david.chaile@gmail.com">leandro.david.chaile@gmail.com</a><span style="display:block;padding:3px 0">Tucumán, Argentina</span></div>
+    <div class="legal">© 2026 Digital Twins. Las imágenes de casos son relevamientos reales; la imagen de portada es ilustrativa.</div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5493816296295" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.6-.1 1.2Z"/></svg></a>
+
+</body>
+</html>

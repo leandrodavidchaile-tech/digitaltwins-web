@@ -199,6 +199,9 @@
   .viewer p{color:#b9c6dc;font-size:15px;margin-top:6px}
   .viewer .alt{display:inline-block;margin-top:12px;color:#fff;font-size:14px;opacity:.8}
   .viewer .alt:hover{opacity:1}
+  .viewer.wide{grid-column:1/-1}
+  .viewer .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b9c6dc;font-family:"Outfit";font-size:15px}
+  .viewer.wide .stage{aspect-ratio:16/8}
 
   @media (max-width:960px){
     nav{display:none;position:absolute;top:72px;left:0;right:0;background:#fff;flex-direction:column;align-items:flex-start;padding:16px 24px 24px;border-bottom:1px solid var(--line);gap:16px}
@@ -450,6 +453,15 @@
       <figcaption>Cortes animados sobre nubes de puntos reales: un plano atraviesa el edificio y deja ver cada nivel.</figcaption>
     </figure>
     <div class="viewers">
+      <div class="viewer wide">
+        <div class="stage" id="usbim-planta">
+          <img src="media/usbim-planta.jpg" alt="Nube de puntos de una planta industrial con el modelo BIM de cañerías superpuesto" loading="lazy">
+          <button class="play" type="button" onclick="cargarVisor('usbim-planta','https://service.usbim.com/link/ZdnmSOngOE94KhmUkvZTeXIc')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Explorar nube + modelo</span></button>
+        </div>
+        <div class="b"><div class="k">Nube de puntos + modelo BIM · Industria</div><h3>Scan to BIM en una planta</h3>
+          <p>La nube del escaneo láser y el modelo BIM de cañerías y estructuras, superpuestos en el mismo visor. Ocultá cada capa, cortá y medí: así se comprueba que el modelo coincide con la realidad.</p>
+          <a class="alt" href="https://service.usbim.com/link/ZdnmSOngOE94KhmUkvZTeXIc" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
+      </div>
       <div class="viewer">
         <div class="stage" id="malla">
           <img src="media/malla-poster.jpg" alt="Malla 3D texturizada de un edificio histórico" loading="lazy">
@@ -546,7 +558,7 @@ function cargarVisor(id,url){
   var st=document.getElementById(id);
   var f=document.createElement('iframe');
   f.src=url; f.title='Visor 3D'; f.allow='autoplay; fullscreen; xr-spatial-tracking'; f.allowFullscreen=true;
-  st.innerHTML=''; st.appendChild(f);
+  st.innerHTML='<div class="loading">Cargando el visor 3D…</div>'; st.appendChild(f);
 }
 </script>
 </body>

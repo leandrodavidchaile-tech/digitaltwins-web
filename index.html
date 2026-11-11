@@ -455,24 +455,26 @@
           <img src="media/malla-poster.jpg" alt="Malla 3D texturizada de un edificio histórico" loading="lazy">
           <button class="play" type="button" onclick="cargarVisor('malla','https://sketchfab.com/models/92ed3f219f884901978cce32ab7e1b14/embed?autostart=1&ui_theme=dark&dnt=1')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Explorar el modelo 3D</span></button>
         </div>
-        <div class="b"><div class="k">Malla texturizada · Fotogrametría</div><h3>Edificio de casi 100 años</h3>
+        <div class="b"><div class="k">Malla texturizada · Fotogrametría</div><h3>Patrimonio arquitectónico</h3>
           <p>Modelo 3D con las texturas reales de fachadas y cubiertas, a partir de fotos de dron y cámara. Giralo, acercate y recorrelo.</p>
-          <a class="alt" href="https://sketchfab.com/3d-models/minhaciendas-v01-92ed3f219f884901978cce32ab7e1b14" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
+          <a class="alt" href="https://sketchfab.com/3d-models/patrimonio-arquitectonico-92ed3f219f884901978cce32ab7e1b14" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
       </div>
       <div class="viewer">
-        <div class="stage">
+        <!-- usBIM: el link anterior venció. Con un link nuevo (sin vencimiento), volver a poner:
+             <button class="play" type="button" onclick="cargarVisor('nube','LINK')">…Recorrer la nube de puntos</button>
+             (el visor de usBIM se deja incrustar; probado 2026-11-10) -->
+        <div class="stage" id="nube">
           <img src="img/caso-estadio.jpg" alt="Nube de puntos a color de un estadio" loading="lazy">
-          <a class="play" href="https://service.usbim.com/link/5s7jYWraPLGDqVCvRUGGKQHr" target="_blank" rel="noopener"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Recorrer la nube de puntos</span></a>
         </div>
         <div class="b"><div class="k">Nube de puntos · Escaneo láser</div><h3>Estadio cubierto</h3>
-          <p>Millones de puntos medidos con su color real. Se abre en un visor web: se puede recorrer y medir sin instalar nada.</p></div>
+          <p>Millones de puntos medidos con su color real. Muy pronto, navegable desde acá: recorrerla y medirla sin instalar nada.</p></div>
       </div>
       <div class="viewer">
         <div class="stage" id="gs-4b318799">
           <img src="media/gs-patio.jpg" alt="Gaussian Splatting del patio de una casa histórica" loading="lazy">
           <button class="play" type="button" onclick="cargarVisor('gs-4b318799','https://superspl.at/s?id=4b318799')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Recorrer en 3D</span></button>
         </div>
-        <div class="b"><div class="k">Gaussian Splatting · Patrimonio</div><h3>Patio de una casa histórica</h3>
+        <div class="b"><div class="k">Gaussian Splatting · Patrimonio</div><h3>Patio histórico</h3>
           <p>Reconstrucción fotorrealista a partir de fotos y video: luz, materiales y vegetación tal como se ven. Se recorre como si estuvieras ahí.</p>
           <a class="alt" href="https://superspl.at/scene/4b318799" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
       </div>
@@ -481,7 +483,7 @@
           <img src="media/gs-planta.jpg" alt="Gaussian Splatting de cañerías y tanques de una planta" loading="lazy">
           <button class="play" type="button" onclick="cargarVisor('gs-0e39cd4e','https://superspl.at/s?id=0e39cd4e')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Recorrer en 3D</span></button>
         </div>
-        <div class="b"><div class="k">Gaussian Splatting · Industria</div><h3>Sector de cañerías de una planta</h3>
+        <div class="b"><div class="k">Gaussian Splatting · Industria</div><h3>Piping industrial</h3>
           <p>Tanques, cañerías y soportes en 3D fotorrealista, para revisar una instalación sin viajar al lugar.</p>
           <a class="alt" href="https://superspl.at/scene/0e39cd4e" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
       </div>

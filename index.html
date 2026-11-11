@@ -199,9 +199,13 @@
   .viewer p{color:#b9c6dc;font-size:15px;margin-top:6px}
   .viewer .alt{display:inline-block;margin-top:12px;color:#fff;font-size:14px;opacity:.8}
   .viewer .alt:hover{opacity:1}
-  .viewer.wide{grid-column:1/-1}
+  .grupo{margin-top:28px;border:1px solid rgba(245,129,31,.45);border-radius:var(--r);padding:24px;background:rgba(245,129,31,.04)}
+  .grupo .viewers{margin-top:16px}
+  .grupo .gh .k{font-family:"Outfit";font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:4px}
+  .grupo .gh h3{color:#fff}
+  .grupo .gh p{color:#b9c6dc;font-size:15px;margin-top:6px;max-width:760px}
+  .viewers.tres{grid-template-columns:repeat(3,1fr)}
   .viewer .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b9c6dc;font-family:"Outfit";font-size:15px}
-  .viewer.wide .stage{aspect-ratio:16/8}
 
   @media (max-width:960px){
     nav{display:none;position:absolute;top:72px;left:0;right:0;background:#fff;flex-direction:column;align-items:flex-start;padding:16px 24px 24px;border-bottom:1px solid var(--line);gap:16px}
@@ -211,7 +215,8 @@
     .split.rev .media{order:0}
     .svcs,.rubros,.pk{grid-template-columns:1fr}
     .steps,.why .g{grid-template-columns:1fr 1fr}
-    .casos,.viewers{grid-template-columns:1fr}
+    .casos,.viewers,.viewers.tres{grid-template-columns:1fr}
+    .grupo{padding:16px}
     footer .wrap{grid-template-columns:1fr}
     section{padding:72px 0}
   }
@@ -452,16 +457,32 @@
       <video src="media/cortes-3d.mp4" poster="media/cortes-3d-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Cortes animados sobre nubes de puntos de edificios"></video>
       <figcaption>Cortes animados sobre nubes de puntos reales: un plano atraviesa el edificio y deja ver cada nivel.</figcaption>
     </figure>
-    <div class="viewers">
-      <div class="viewer wide">
+    <div class="grupo">
+      <div class="gh"><div class="k">Un mismo relevamiento · Planta industrial</div>
+        <h3>Dos maneras de ver el mismo escaneo</h3>
+        <p>Con una sola campaña en el lugar entregamos la nube medida con su modelo BIM, para proyectar y verificar, y un modelo fotorrealista para mostrar y recorrer.</p></div>
+      <div class="viewers">
+      <div class="viewer">
         <div class="stage" id="usbim-planta">
           <img src="media/usbim-planta.jpg" alt="Nube de puntos de una planta industrial con el modelo BIM de cañerías superpuesto" loading="lazy">
           <button class="play" type="button" onclick="cargarVisor('usbim-planta','https://service.usbim.com/link/ZdnmSOngOE94KhmUkvZTeXIc')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Explorar nube + modelo</span></button>
         </div>
-        <div class="b"><div class="k">Nube de puntos + modelo BIM · Industria</div><h3>Scan to BIM en una planta</h3>
-          <p>La nube del escaneo láser y el modelo BIM de cañerías y estructuras, superpuestos en el mismo visor. Ocultá cada capa, cortá y medí: así se comprueba que el modelo coincide con la realidad.</p>
+        <div class="b"><div class="k">Para medir y modelar</div><h3>Nube de puntos + modelo BIM</h3>
+          <p>La nube del escaneo láser con el modelo BIM de cañerías y estructuras superpuesto. Ocultá cada capa, cortá y medí: así se comprueba que el modelo coincide con la realidad.</p>
           <a class="alt" href="https://service.usbim.com/link/ZdnmSOngOE94KhmUkvZTeXIc" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
       </div>
+      <div class="viewer">
+        <div class="stage" id="gs-0e39cd4e">
+          <img src="media/gs-planta.jpg" alt="Gaussian Splatting de cañerías y tanques de una planta" loading="lazy">
+          <button class="play" type="button" onclick="cargarVisor('gs-0e39cd4e','https://superspl.at/s?id=0e39cd4e')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Recorrer en 3D</span></button>
+        </div>
+        <div class="b"><div class="k">Para mostrar y recorrer</div><h3>Gaussian Splatting (3DGS)</h3>
+          <p>El mismo sector en 3D fotorrealista: tanques, cañerías y soportes tal como se ven, para revisar la instalación sin viajar al lugar.</p>
+          <a class="alt" href="https://superspl.at/scene/0e39cd4e" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
+      </div>
+      </div>
+    </div>
+    <div class="viewers tres">
       <div class="viewer">
         <div class="stage" id="malla">
           <img src="media/malla-poster.jpg" alt="Malla 3D texturizada de un edificio histórico" loading="lazy">
@@ -470,16 +491,6 @@
         <div class="b"><div class="k">Malla texturizada · Fotogrametría</div><h3>Patrimonio arquitectónico</h3>
           <p>Modelo 3D con las texturas reales de fachadas y cubiertas, a partir de fotos de dron y cámara. Giralo, acercate y recorrelo.</p>
           <a class="alt" href="https://sketchfab.com/3d-models/patrimonio-arquitectonico-92ed3f219f884901978cce32ab7e1b14" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
-      </div>
-      <div class="viewer">
-        <!-- usBIM: el link anterior venció. Con un link nuevo (sin vencimiento), volver a poner:
-             <button class="play" type="button" onclick="cargarVisor('nube','LINK')">…Recorrer la nube de puntos</button>
-             (el visor de usBIM se deja incrustar; probado 2026-11-10) -->
-        <div class="stage" id="nube">
-          <img src="img/caso-estadio.jpg" alt="Nube de puntos a color de un estadio" loading="lazy">
-        </div>
-        <div class="b"><div class="k">Nube de puntos · Escaneo láser</div><h3>Estadio cubierto</h3>
-          <p>Millones de puntos medidos con su color real. Muy pronto, navegable desde acá: recorrerla y medirla sin instalar nada.</p></div>
       </div>
       <div class="viewer">
         <div class="stage" id="gs-4b318799">
@@ -491,13 +502,14 @@
           <a class="alt" href="https://superspl.at/scene/4b318799" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
       </div>
       <div class="viewer">
-        <div class="stage" id="gs-0e39cd4e">
-          <img src="media/gs-planta.jpg" alt="Gaussian Splatting de cañerías y tanques de una planta" loading="lazy">
-          <button class="play" type="button" onclick="cargarVisor('gs-0e39cd4e','https://superspl.at/s?id=0e39cd4e')"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Recorrer en 3D</span></button>
+        <!-- usBIM: el link anterior venció. Con un link nuevo (sin vencimiento), volver a poner:
+             <button class="play" type="button" onclick="cargarVisor('nube','LINK')">…Recorrer la nube de puntos</button>
+             (el visor de usBIM se deja incrustar; probado 2026-11-10) -->
+        <div class="stage" id="nube">
+          <img src="img/caso-estadio.jpg" alt="Nube de puntos a color de un estadio" loading="lazy">
         </div>
-        <div class="b"><div class="k">Gaussian Splatting · Industria</div><h3>Piping industrial</h3>
-          <p>Tanques, cañerías y soportes en 3D fotorrealista, para revisar una instalación sin viajar al lugar.</p>
-          <a class="alt" href="https://superspl.at/scene/0e39cd4e" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a></div>
+        <div class="b"><div class="k">Nube de puntos · Escaneo láser</div><h3>Estadio cubierto</h3>
+          <p>Millones de puntos medidos con su color real. Muy pronto, navegable desde acá: recorrerla y medirla sin instalar nada.</p></div>
       </div>
     </div>
     <p class="lead" style="font-size:15px;margin-top:20px">El <strong>Gaussian Splatting (3DGS)</strong> es una técnica nueva de reconstrucción fotorrealista: es ideal para mostrar y recorrer un lugar. Para medir y modelar trabajamos sobre la nube de puntos del escaneo láser.</p>
